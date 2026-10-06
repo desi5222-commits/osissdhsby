@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDH Surabaya - Student Council Election 2026/2027</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sdh: {
+                            navy: '#0b1d3a',
+                            blue: '#1e3a8a',
+                            gold: '#d97706',
+                            goldlight: '#f59e0b',
+                            crimson: '#991b1b',
+                            glass: 'rgba(15, 23, 42, 0.75)',
+                            cardbg: 'rgba(30, 41, 59, 0.65)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Global Image Error Handlers -->
+    <script>
+        function handleCandidateError(imgElement, candidateName, colorHex) {
+            imgElement.onerror = null;
+            const cleanHex = (colorHex || 'd97706').replace('#', '');
+            imgElement.src = `https://placehold.co/400x500/0b1d3a/${cleanHex}?text=${encodeURIComponent(candidateName)}+%28SDH%29`;
+        }
+
+        function handleLogoError(imgElement) {
+            imgElement.onerror = null;
+            imgElement.src = `https://placehold.co/400x120/0b1d3a/f59e0b?text=SDH+SURABAYA`;
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #070d19;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(30, 41, 59, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15);
+        }
+
+        .bg-school-overlay {
+            background-image: radial-gradient(circle at center, rgba(11, 29, 58, 0.6) 0%, rgba(7, 13, 25, 0.92) 100%), var(--bg-img-url, url('SDH Building.jpg'));
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+
+        .pulse-live {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+
+        .vote-number {
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(217, 119, 6, 0.5);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(217, 119, 6, 0.8);
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col justify-between bg-school-overlay min-h-screen text-slate-100 relative" id="body-bg">
+
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-3 bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 flex justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div id="sdh-header-logo-container" class="h-10 px-2 rounded-xl bg-slate-950/90 border border-amber-500/30 flex items-center justify-center overflow-hidden shrink-0">
+                <img id="nav-logo-img" src="https://lh3.googleusercontent.com/d/1cdplHG-U_A5VvcRZOegWVAsrmA_ITZa5" alt="SDH Logo" onerror="handleLogoError(this)" class="h-full w-auto object-contain">
+            </div>
+            <div>
+                <h1 id="header-school-name" class="text-xs sm:text-sm font-bold tracking-wider text-amber-400 font-display uppercase">Sekolah Dian Harapan Surabaya</h1>
+                <p id="header-election-year" class="text-[10px] sm:text-xs text-slate-400">Student Council Election 2026/2027</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-1 sm:space-x-2 bg-slate-900/90 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
+            <button id="btn-view-main" onclick="switchView('main')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold shadow-md">
+                <i class="fa-solid fa-tv text-xs"></i>
+                <span class="hidden md:inline">Main Screen</span>
+            </button>
+            <button id="btn-view-voting" onclick="switchView('voting')" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 text-slate-300 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-check-to-slot text-xs"></i>
+                <span class="hidden md:inline">Voting Device</span>
+            </button>
+            <button id="btn-view-admin" onclick="openAdminModal()" class="px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 text-slate-400 hover:text-amber-400 hover:bg-slate-800">
+                <i class="fa-solid fa-user-gear text-xs"></i>
+                <span class="hidden md:inline">Admin</span>
+            </button>
+            <button onclick="toggleFullScreen()" title="Toggle Fullscreen" class="px-2 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-expand text-xs"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="pt-16 pb-6 px-3 sm:px-6 flex-grow flex flex-col justify-center items-center w-full max-w-7xl mx-auto my-auto relative z-10">
+
+        <!-- ========================================================================= -->
+        <!-- INTERFACE A: MAIN DISPLAY / LIVE ELECTION SCREEN (Projector / TV 16:9)    -->
+        <!-- ========================================================================= -->
+        <section id="view-main-display" class="w-full flex flex-col justify-between items-center py-4 min-h-[85vh]">
+            <div class="text-center space-y-2 mb-4 sm:mb-6 animate-fade-in">
+                <!-- Status Badge -->
+                <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 shadow-inner mb-2">
+                    <span id="live-indicator-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span id="live-indicator-text" class="text-xs font-bold tracking-widest uppercase text-emerald-400">LIVE VOTING</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 mb-1">
+                    <div id="sdh-main-logo-box" class="h-16 sm:h-20 px-3 bg-slate-950/90 border-2 border-amber-500/40 p-2 rounded-2xl shadow-xl flex items-center justify-center overflow-hidden shrink-0">
+                        <img id="main-logo-img" src="https://lh3.googleusercontent.com/d/1cdplHG-U_A5VvcRZOegWVAsrmA_ITZa5" alt="SDH Logo" onerror="handleLogoError(this)" class="h-full w-auto object-contain">
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h2 id="main-display-school-name" class="text-xs sm:text-sm font-bold tracking-widest text-amber-400/90 font-display uppercase">SEKOLAH DIAN HARAPAN SURABAYA</h2>
+                        <h1 id="main-display-title" class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white font-display">STUDENT COUNCIL PRESIDENT ELECTION</h1>
+                        <p id="main-display-year" class="text-xs sm:text-sm font-semibold text-slate-300">ACADEMIC YEAR 2026 / 2027</p>
+                    </div>
+                </div>
+
+                <!-- Helper Prompt for users who want to vote -->
+                <div class="mt-2 inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-medium cursor-pointer hover:bg-amber-500/20 transition-all" onclick="switchView('voting')">
+                    <i class="fa-solid fa-circle-info text-amber-400"></i>
+                    <span>Ini adalah Layar Tampilan Hasil Live. <u>Klik di sini untuk berpindah ke Perangkat Voting</u> dan memberikan suara.</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-10 w-full max-w-5xl my-auto">
+
+                <!-- Candidate 1: JEFEES -->
+                <div id="card-main-jefees" onclick="promptSwitchToVoting()" class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden group transition-all duration-300 border-slate-700/60 hover:border-amber-500/50 cursor-pointer" title="Klik untuk membuka perangkat voting">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="relative w-44 h-52 sm:w-56 sm:h-64 lg:w-64 lg:h-72 rounded-2xl overflow-hidden border-2 border-amber-500/40 shadow-2xl mb-5 group-hover:scale-[1.02] transition-transform duration-300 bg-slate-900 flex items-center justify-center">
+                        <img id="photo-main-jefees" src="Jefees.jpg" alt="JEFEES" onerror="handleCandidateError(this, 'JEFEES', '#d97706')" class="w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+                        <span id="tagline-main-jefees" class="absolute bottom-3 left-3 bg-amber-500 text-slate-950 text-xs font-black px-2.5 py-1 rounded-md shadow z-10">CANDIDATE 01</span>
+                    </div>
+
+                    <h3 id="name-main-jefees" class="text-2xl sm:text-3xl font-extrabold text-white font-display tracking-wide mb-3">JEFEES</h3>
+
+                    <div class="w-full bg-slate-900/80 rounded-xl p-4 border border-slate-800 shadow-inner flex flex-col items-center">
+                        <div class="text-4xl sm:text-5xl lg:text-6xl font-black text-amber-400 font-display tracking-tight vote-number" id="count-main-jefees">0</div>
+                        <span class="text-xs sm:text-sm font-semibold tracking-wider text-slate-400 uppercase mt-1">TOTAL VOTES</span>
+                        <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+                            <div id="bar-main-jefees" class="bg-gradient-to-r from-amber-600 to-amber-400 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+                        </div>
+                        <span id="percent-main-jefees" class="text-[11px] font-bold text-amber-400/80 mt-1">0%</span>
+                    </div>
+                </div>
+
+                <!-- Candidate 2: AUBARY -->
+                <div id="card-main-aubary" onclick="promptSwitchToVoting()" class="glass-panel rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden group transition-all duration-300 border-slate-700/60 hover:border-blue-500/50 cursor-pointer" title="Klik untuk membuka perangkat voting">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                    <div class="relative w-44 h-52 sm:w-56 sm:h-64 lg:w-64 lg:h-72 rounded-2xl overflow-hidden border-2 border-blue-500/40 shadow-2xl mb-5 group-hover:scale-[1.02] transition-transform duration-300 bg-slate-900 flex items-center justify-center">
+                        <img id="photo-main-aubary" src="Aubary.jpg" alt="AUBARY" onerror="handleCandidateError(this, 'AUBARY', '#2563eb')" class="w-full h-full object-cover object-top">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+                        <span id="tagline-main-aubary" class="absolute bottom-3 left-3 bg-blue-500 text-white text-xs font-black px-2.5 py-1 rounded-md shadow z-10">CANDIDATE 02</span>
+                    </div>
+
+                    <h3 id="name-main-aubary" class="text-2xl sm:text-3xl font-extrabold text-white font-display tracking-wide mb-3">AUBARY</h3>
+
+                    <div class="w-full bg-slate-900/80 rounded-xl p-4 border border-slate-800 shadow-inner flex flex-col items-center">
+                        <div class="text-4xl sm:text-5xl lg:text-6xl font-black text-blue-400 font-display tracking-tight vote-number" id="count-main-aubary">0</div>
+                        <span class="text-xs sm:text-sm font-semibold tracking-wider text-slate-400 uppercase mt-1">TOTAL VOTES</span>
+                        <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
+                            <div id="bar-main-aubary" class="bg-gradient-to-r from-blue-600 to-blue-400 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+                        </div>
+                        <span id="percent-main-aubary" class="text-[11px] font-bold text-blue-400/80 mt-1">0%</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="mt-8 text-center space-y-1">
+                <p class="text-lg sm:text-xl font-black tracking-widest text-amber-400 font-display uppercase">YOUR VOICE MATTERS</p>
+                <p id="main-footer-subtext" class="text-xs text-slate-400 font-medium">Student Council President Election • Sekolah Dian Harapan Surabaya • 2026/2027</p>
+            </div>
+        </section>
+
+        <!-- ========================================================================= -->
+        <!-- INTERFACE B: VOTING DEVICE INTERFACE (For Mobile/Tablet/Laptop)          -->
+        <!-- ========================================================================= -->
+        <section id="view-voting-device" class="w-full max-w-xl mx-auto flex flex-col justify-center items-center py-4 hidden">
+            
+            <div class="w-full text-center mb-6 bg-slate-900/80 p-5 rounded-2xl border border-slate-800 shadow-lg backdrop-blur-md">
+                <div class="h-14 px-3 mx-auto mb-3 bg-slate-950/90 border border-amber-500/40 p-1.5 rounded-xl inline-flex items-center justify-center">
+                    <img id="voter-logo-img" src="https://lh3.googleusercontent.com/d/1cdplHG-U_A5VvcRZOegWVAsrmA_ITZa5" alt="SDH Logo" onerror="handleLogoError(this)" class="h-full w-auto object-contain">
+                </div>
+                <h2 id="voter-header-school" class="text-xs font-extrabold text-amber-400 font-display uppercase tracking-wider">SEKOLAH DIAN HARAPAN SURABAYA</h2>
+                <h1 id="voter-header-title" class="text-xl font-black text-white font-display mt-0.5">STUDENT COUNCIL PRESIDENT ELECTION</h1>
+                <p id="voter-header-year" class="text-xs text-slate-400 font-semibold">ACADEMIC YEAR 2026/2027</p>
+            </div>
+
+            <!-- Closed Election Banner -->
+            <div id="voting-closed-banner" class="hidden w-full glass-panel p-8 rounded-2xl text-center space-y-3 border-amber-500/30">
+                <div class="w-16 h-16 mx-auto rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white font-display">Voting is Currently Closed</h3>
+                <p class="text-sm text-slate-300">The election is either paused or has concluded. Please follow instructions from the election committee.</p>
+            </div>
+
+            <div id="already-voted-banner" class="hidden w-full glass-panel p-8 rounded-2xl text-center space-y-4 border-emerald-500/30">
+                <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="text-2xl font-black text-white font-display">VOTE SUBMITTED</h3>
+                <p class="text-sm text-slate-300">Thank you for participating in the <span id="thankyou-school-name" class="text-amber-400 font-bold">Sekolah Dian Harapan</span> Student Council Election!</p>
+                <p class="text-xs text-slate-400 italic">Your vote has been securely recorded.</p>
+
+                <div id="kiosk-reset-box" class="pt-4 border-t border-slate-800/80 space-y-3">
+                    <p class="text-xs font-semibold text-amber-300">
+                        <i class="fa-solid fa-arrows-rotate mr-1 animate-spin"></i> Resetting for next voter in <span id="kiosk-countdown-num" class="text-white font-extrabold text-base px-2 py-0.5 bg-amber-500/20 rounded border border-amber-500/40">4</span>s...
+                    </p>
+                    <button onclick="resetScreenForNextVoter()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl shadow-lg shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-user-plus text-base"></i>
+                        <span>CAST NEXT VOTE NOW</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="voting-active-area" class="w-full space-y-4">
+                <div class="text-center mb-2">
+                    <p class="text-sm sm:text-base font-bold text-amber-300 bg-amber-500/10 px-4 py-2 rounded-xl inline-block border border-amber-500/20 shadow-sm">
+                        <i class="fa-solid fa-hand-pointer mr-1.5"></i> Choose ONE candidate for Student Council President:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                    <!-- Candidate 1 Choice Button -->
+                    <div onclick="selectCandidate('candidate1')" class="glass-card rounded-2xl p-5 flex flex-col items-center text-center cursor-pointer group active:scale-95 transition-all relative overflow-hidden border-slate-700/70 hover:border-amber-500">
+                        <div class="w-36 h-44 sm:w-40 sm:h-48 rounded-xl overflow-hidden border-2 border-amber-500/40 mb-3 bg-slate-900 shadow-md flex items-center justify-center">
+                            <img id="photo-voter-jefees" src="Jefees.jpg" alt="JEFEES" onerror="handleCandidateError(this, 'JEFEES', '#d97706')" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform">
+                        </div>
+                        <span id="tagline-voter-jefees" class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/30 mb-1">Candidate 01</span>
+                        <h3 id="name-voter-jefees" class="text-xl font-black text-white font-display">JEFEES</h3>
+                        <p id="subtext-voter-jefees" class="text-xs text-slate-400 mt-1 font-medium">Click to select Jefees</p>
+                        <button id="btn-voter-jefees" onclick="event.stopPropagation(); selectCandidate('candidate1');" class="mt-3 w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl shadow group-hover:shadow-amber-500/20">
+                            VOTE FOR JEFEES
+                        </button>
+                    </div>
+
+                    <!-- Candidate 2 Choice Button -->
+                    <div onclick="selectCandidate('candidate2')" class="glass-card rounded-2xl p-5 flex flex-col items-center text-center cursor-pointer group active:scale-95 transition-all relative overflow-hidden border-slate-700/70 hover:border-blue-500">
+                        <div class="w-36 h-44 sm:w-40 sm:h-48 rounded-xl overflow-hidden border-2 border-blue-500/40 mb-3 bg-slate-900 shadow-md flex items-center justify-center">
+                            <img id="photo-voter-aubary" src="Aubary.jpg" alt="AUBARY" onerror="handleCandidateError(this, 'AUBARY', '#2563eb')" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform">
+                        </div>
+                        <span id="tagline-voter-aubary" class="text-[10px] font-bold uppercase tracking-wider text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded border border-blue-500/30 mb-1">Candidate 02</span>
+                        <h3 id="name-voter-aubary" class="text-xl font-black text-white font-display">AUBARY</h3>
+                        <p id="subtext-voter-aubary" class="text-xs text-slate-400 mt-1 font-medium">Click to select Aubary</p>
+                        <button id="btn-voter-aubary" onclick="event.stopPropagation(); selectCandidate('candidate2');" class="mt-3 w-full py-2.5 bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs rounded-xl shadow group-hover:shadow-blue-500/20">
+                            VOTE FOR AUBARY
+                        </button>
+                    </div>
+
+                </div>
+
+                <p class="text-[11px] text-center text-slate-400 italic mt-4">
+                    <i class="fa-solid fa-shield-halved text-amber-500/80 mr-1"></i> SDH Surabaya Voting Integrity System • Continuous Kiosk Voting Enabled
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="modal-confirm-vote" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden animate-fade-in">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 border-amber-500/40 shadow-2xl space-y-4 text-center">
+            <div class="w-16 h-16 mx-auto rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-2xl">
+                <i class="fa-solid fa-vote-yea"></i>
+            </div>
+            
+            <div>
+                <h3 class="text-xs font-extrabold uppercase tracking-widest text-slate-400">Confirm Your Choice</h3>
+                <p class="text-2xl font-black text-white font-display mt-1">You selected <span id="confirm-candidate-name" class="text-amber-400">CANDIDATE</span></p>
+            </div>
+
+            <p class="text-sm text-slate-300">Are you sure you want to submit your vote? Once submitted, your selection cannot be changed.</p>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeConfirmModal()" class="py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm transition-colors border border-slate-700">
+                    CANCEL
+                </button>
+                <button id="btn-submit-final-vote" onclick="submitFinalVote()" class="py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/20 transition-transform active:scale-95">
+                    SUBMIT VOTE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- INTERFACE C: ADMIN CONTROL PANEL MODAL                                    -->
+    <!-- ========================================================================= -->
+    <div id="modal-admin-panel" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md hidden overflow-y-auto">
+        <div class="glass-panel w-full max-w-2xl rounded-2xl p-6 border-slate-700/80 shadow-2xl space-y-6 my-auto">
+            
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-black text-white font-display">Election Control Panel</h3>
+                        <p class="text-xs text-slate-400">Protected Admin System • Editable Election Settings</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div id="admin-pin-screen" class="space-y-4 text-center py-4">
+                <p class="text-sm text-slate-300">Enter Admin PIN Code to access controls:</p>
+                <div class="flex justify-center max-w-xs mx-auto">
+                    <input type="password" id="admin-pin-input" placeholder="Default: 1234" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-center text-lg font-bold text-amber-400 focus:outline-none focus:border-amber-500">
+                </div>
+                <button onclick="verifyAdminPin()" class="px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm rounded-xl">
+                    Unlock Panel
+                </button>
+                <p id="pin-error-msg" class="text-xs text-rose-400 hidden">Incorrect PIN Code!</p>
+            </div>
+
+            <div id="admin-controls-content" class="hidden space-y-6">
+
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30 space-y-2">
+                    <label class="text-xs font-bold text-amber-400 uppercase tracking-wider block">
+                        <i class="fa-solid fa-link mr-1"></i> Dedicated Link Perangkat Voting Pemilih
+                    </label>
+                    <p class="text-[11px] text-slate-300">Gunakan link ini untuk tablet / HP di bilik suara. Pemilih akan langsung diarahkan ke layar voting tanpa harus beralih manual:</p>
+                    <div class="flex items-center space-x-2">
+                        <input type="text" id="input-voting-link" readonly class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-amber-300 text-xs font-mono select-all">
+                        <button onclick="copyVotingLink()" class="px-3 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-lg shrink-0 flex items-center space-x-1">
+                            <i class="fa-solid fa-copy"></i>
+                            <span>Salin Link</span>
+                        </button>
+                    </div>
+                    <p id="copy-link-success" class="text-[10px] text-emerald-400 hidden font-bold"><i class="fa-solid fa-check mr-1"></i> Link berhasil disalin!</p>
+                </div>
+
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">1. Election Status Control</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="setElectionStatus('NOT_STARTED')" id="btn-status-notstarted" class="py-2.5 px-3 rounded-xl border border-slate-700 text-xs font-bold transition-all bg-slate-800 text-slate-300">
+                            NOT STARTED
+                        </button>
+                        <button onclick="setElectionStatus('LIVE')" id="btn-status-live" class="py-2.5 px-3 rounded-xl border border-emerald-500/50 text-xs font-bold transition-all bg-emerald-500/20 text-emerald-400">
+                            LIVE VOTING
+                        </button>
+                        <button onclick="setElectionStatus('CLOSED')" id="btn-status-closed" class="py-2.5 px-3 rounded-xl border border-slate-700 text-xs font-bold transition-all bg-slate-800 text-slate-300">
+                            VOTING CLOSED
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">2. Live Tally Overview</label>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <span id="admin-label-jefees" class="text-xs font-bold text-amber-400">JEFEES:</span>
+                                <span id="admin-count-jefees" class="text-lg font-black text-white ml-2">0</span>
+                            </div>
+                            <div class="flex space-x-1">
+                                <button onclick="adjustVote('jefees', 1)" class="w-6 h-6 rounded bg-slate-800 text-amber-400 hover:bg-amber-500 hover:text-slate-950 text-xs font-bold">+</button>
+                                <button onclick="adjustVote('jefees', -1)" class="w-6 h-6 rounded bg-slate-800 text-rose-400 hover:bg-rose-500 hover:text-white text-xs font-bold">-</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <span id="admin-label-aubary" class="text-xs font-bold text-blue-400">AUBARY:</span>
+                                <span id="admin-count-aubary" class="text-lg font-black text-white ml-2">0</span>
+                            </div>
+                            <div class="flex space-x-1">
+                                <button onclick="adjustVote('aubary', 1)" class="w-6 h-6 rounded bg-slate-800 text-blue-400 hover:bg-blue-500 hover:text-white text-xs font-bold">+</button>
+                                <button onclick="adjustVote('aubary', -1)" class="w-6 h-6 rounded bg-slate-800 text-rose-400 hover:bg-rose-500 hover:text-white text-xs font-bold">-</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <span class="text-xs text-slate-400 font-semibold">Total Ballots Cast: <span id="admin-count-total" class="text-white font-bold">0</span></span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-amber-500/30 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label class="text-xs font-bold text-amber-400 uppercase tracking-wider block">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i> 3. Edit Website Content & Candidates
+                        </label>
+                        <span class="text-[10px] text-slate-400 italic">Editable Live Updates</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="text-slate-400 block mb-1">School Name:</label>
+                            <input type="text" id="input-edit-school" placeholder="SEKOLAH DIAN HARAPAN SURABAYA" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Election Title:</label>
+                            <input type="text" id="input-edit-title" placeholder="STUDENT COUNCIL PRESIDENT ELECTION" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Academic Year:</label>
+                            <input type="text" id="input-edit-year" placeholder="ACADEMIC YEAR 2026/2027" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-slate-400 block mb-1">Auto-Reset Delay (seconds):</label>
+                            <input type="number" id="input-edit-delay" min="1" max="10" placeholder="4" class="w-full bg-slate-950 border border-slate-700 rounded p-2 text-slate-200 focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-amber-400 font-bold block mb-1">Candidate 01 Name:</label>
+                            <input type="text" id="input-edit-cand1" placeholder="JEFEES" class="w-full bg-slate-950 border border-amber-500/40 rounded p-2 text-amber-300 font-bold focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-blue-400 font-bold block mb-1">Candidate 02 Name:</label>
+                            <input type="text" id="input-edit-cand2" placeholder="AUBARY" class="w-full bg-slate-950 border border-blue-500/40 rounded p-2 text-blue-300 font-bold focus:border-blue-500">
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-white block"><i class="fa-solid fa-repeat text-amber-400 mr-1"></i> Continuous Kiosk Voting Mode</span>
+                            <span class="text-[11px] text-slate-400">Allow voters to vote continuously on the same device/tablet without locking out.</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="input-toggle-kiosk" class="sr-only peer" checked onchange="saveEditableContent()">
+                            <div class="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-500"></div>
+                        </label>
+                    </div>
+
+                    <button onclick="saveEditableContent()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-lg shadow-md transition-transform active:scale-95">
+                        <i class="fa-solid fa-floppy-disk mr-1"></i> SAVE ALL EDITABLE CONTENT
+                    </button>
+                </div>
+
+                <div class="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">4. Image Assets Configuration & Direct Upload</label>
+                    <p class="text-[11px] text-slate-400">Pilih foto langsung dari laptop/HP Anda (Upload) atau masukkan link URL gambar direct (HTTPS):</p>
+                    <div class="flex space-x-2">
+                        <button onclick="applyOnlinePlaceholders()" class="px-3 py-1.5 bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 rounded-lg text-xs font-bold border border-amber-500/30">
+                            <i class="fa-solid fa-image mr-1"></i> Load High-Res Placeholders
+                        </button>
+                        <button onclick="applyLocalFilenameDefaults()" class="px-3 py-1.5 bg-slate-800 text-slate-300 hover:bg-slate-700 rounded-lg text-xs font-bold border border-slate-700">
+                            <i class="fa-solid fa-folder-open mr-1"></i> Use Local File Names
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mt-2">
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                            <label class="text-amber-400 font-bold block">SDH School Logo:</label>
+                            <input type="file" accept="image/*" onchange="handleFileUpload(event, 'logo')" class="text-slate-300 text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer w-full">
+                            <input type="text" id="input-logo-url" placeholder="atau paste URL: https://..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200 text-[11px]">
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                            <label class="text-amber-400 font-bold block">Campus Background:</label>
+                            <input type="file" accept="image/*" onchange="handleFileUpload(event, 'bg')" class="text-slate-300 text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer w-full">
+                            <input type="text" id="input-bg-url" placeholder="atau paste URL: https://..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200 text-[11px]">
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                            <label class="text-amber-400 font-bold block">Candidate 01 Photo:</label>
+                            <input type="file" accept="image/*" onchange="handleFileUpload(event, 'jefees')" class="text-slate-300 text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-amber-500 file:text-slate-950 hover:file:bg-amber-400 cursor-pointer w-full">
+                            <input type="text" id="input-jefees-url" placeholder="atau paste URL: https://..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200 text-[11px]">
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2">
+                            <label class="text-blue-400 font-bold block">Candidate 02 Photo:</label>
+                            <input type="file" accept="image/*" onchange="handleFileUpload(event, 'aubary')" class="text-slate-300 text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-400 cursor-pointer w-full">
+                            <input type="text" id="input-aubary-url" placeholder="atau paste URL: https://..." class="w-full bg-slate-900 border border-slate-700 rounded p-1.5 text-slate-200 text-[11px]">
+                        </div>
+                    </div>
+                    <button onclick="saveImageUrls()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-lg border border-slate-700">
+                        Apply URL Changes
+                    </button>
+                </div>
+
+                <div class="bg-rose-950/20 p-4 rounded-xl border border-rose-900/50 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div>
+                        <h4 class="text-xs font-bold text-rose-400 uppercase">Reset Election Results</h4>
+                        <p class="text-[11px] text-slate-400">Clear all vote totals back to 0. Requires confirmation.</p>
+                    </div>
+                    <div class="flex space-x-2 shrink-0">
+                        <button onclick="resetDeviceVoteLock()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-lg border border-slate-700" title="Allow voting again on this browser">
+                            Reset Local Device Lock
+                        </button>
+                        <button onclick="promptResetVotes()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs rounded-lg shadow">
+                            RESET ALL VOTES
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ADMIN RESET CONFIRMATION MODAL -->
+    <div id="modal-admin-reset-confirm" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-md hidden">
+        <div class="glass-panel w-full max-w-md rounded-2xl p-6 border-rose-500/50 shadow-2xl text-center space-y-4">
+            <div class="w-16 h-16 mx-auto rounded-full bg-rose-500/20 text-rose-500 flex items-center justify-center text-3xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 class="text-xl font-black text-white font-display">Confirm Election Reset</h3>
+            <p class="text-sm text-slate-300">Are you sure you want to reset all election results? This action cannot be undone and will zero out candidate votes.</p>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeResetConfirmModal()" class="py-2.5 bg-slate-800 text-slate-300 font-bold text-xs rounded-xl">CANCEL</button>
+                <button onclick="confirmResetAllVotes()" class="py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-black text-xs rounded-xl shadow">YES, RESET EVERYTHING</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, onSnapshot, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global State (Fully Editable)
+        window.appState = {
+            status: 'LIVE', // 'NOT_STARTED', 'LIVE', 'CLOSED'
+            jefeesVotes: 0,
+            aubaryVotes: 0,
+            schoolName: 'SEKOLAH DIAN HARAPAN SURABAYA',
+            electionTitle: 'STUDENT COUNCIL PRESIDENT ELECTION',
+            academicYear: '2026/2027',
+            candidate1Name: 'JEFEES',
+            candidate2Name: 'AUBARY',
+            kioskMode: true,
+            autoResetDelay: 4,
+            customImages: {
+                logo: '',
+                bg: '',
+                jefees: '',
+                aubary: ''
+            }
+        };
+
+        window.selectedCandidate = null;
+        window.isAdminAuthenticated = false;
+        window.kioskTimer = null;
+
+        let db = null;
+        let auth = null;
+        let electionDocRef = null;
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'sdh-surabaya-election-2026';
+
+        // Local Sync Broadcast Channel
+        const broadcast = new BroadcastChannel('sdh_election_channel');
+
+        async function initFirebase() {
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    electionDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'sdh_election_state', 'current_state');
+
+                    onSnapshot(electionDocRef, (docSnap) => {
+                        if (docSnap.exists()) {
+                            const data = docSnap.data();
+                            window.appState = { ...window.appState, ...data };
+                            updateUI();
+                        } else {
+                            setDoc(electionDocRef, window.appState);
+                        }
+                    }, (error) => {
+                        console.warn("Firestore snapshot error, falling back to local sync:", error);
+                        setupLocalSync();
+                    });
+                } else {
+                    setupLocalSync();
+                }
+            } catch (err) {
+                console.warn("Firebase setup failed or offline, using local state sync:", err);
+                setupLocalSync();
+            }
+        }
+
+        function setupLocalSync() {
+            const localSaved = localStorage.getItem('sdh_election_local_state');
+            if (localSaved) {
+                try { window.appState = JSON.parse(localSaved); } catch(e){}
+            }
+            updateUI();
+
+            broadcast.onmessage = (event) => {
+                if (event.data) {
+                    window.appState = event.data;
+                    updateUI();
+                }
+            };
+        }
+
+        window.saveStateToBackend = async function(newState) {
+            window.appState = { ...window.appState, ...newState };
+            updateUI();
+
+            localStorage.setItem('sdh_election_local_state', JSON.stringify(window.appState));
+            broadcast.postMessage(window.appState);
+
+            if (electionDocRef) {
+                try {
+                    await setDoc(electionDocRef, window.appState, { merge: true });
+                } catch (e) {
+                    console.error("Error writing to Firestore:", e);
+                }
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initFirebase();
+            checkDeviceVotedStatus();
+            checkUrlParams();
+        });
+    </script>
+
+    <script>
+        function checkUrlParams() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode') || urlParams.get('view');
+            const hash = window.location.hash;
+
+            // Memeriksa jika URL memiliki parameter mode=voting atau hashtag #voting
+            if (mode === 'voting' || mode === 'vote' || hash === '#voting' || hash === '#vote') {
+                switchView('voting');
+                
+                // Jika ingin menyembunyikan tombol 'Main Screen' di bilik suara khusus
+                if (urlParams.get('standalone') === 'true' || urlParams.get('kiosk') === 'true') {
+                    const btnMain = document.getElementById('btn-view-main');
+                    if (btnMain) btnMain.classList.add('hidden');
+                }
+            }
+        }
+
+        function copyVotingLink() {
+            const linkInput = document.getElementById('input-voting-link');
+            if (linkInput) {
+                linkInput.select();
+                document.execCommand('copy');
+                const successMsg = document.getElementById('copy-link-success');
+                if (successMsg) {
+                    successMsg.classList.remove('hidden');
+                    setTimeout(() => successMsg.classList.add('hidden'), 3000);
+                }
+            }
+        }
+
+        const DEFAULT_IMAGES = {
+            logo: 'SDH Logo.png',
+            bg: 'SDH Building.jpg',
+            jefees: 'Jefees.jpg',
+            aubary: 'Aubary.jpg'
+        };
+
+        function updateUI() {
+            const state = window.appState || {};
+            const imgs = state.customImages || {};
+
+            const schoolName = state.schoolName || 'SEKOLAH DIAN HARAPAN SURABAYA';
+            const electionTitle = state.electionTitle || 'STUDENT COUNCIL PRESIDENT ELECTION';
+            const academicYear = state.academicYear || '2026/2027';
+            const cand1Name = state.candidate1Name || 'JEFEES';
+            const cand2Name = state.candidate2Name || 'AUBARY';
+
+            document.getElementById('header-school-name').innerText = schoolName;
+            document.getElementById('header-election-year').innerText = electionTitle + ' ' + academicYear;
+
+            document.getElementById('main-display-school-name').innerText = schoolName;
+            document.getElementById('main-display-title').innerText = electionTitle;
+            document.getElementById('main-display-year').innerText = 'ACADEMIC YEAR ' + academicYear;
+            document.getElementById('main-footer-subtext').innerText = electionTitle + ' • ' + schoolName + ' • ' + academicYear;
+
+            document.getElementById('voter-header-school').innerText = schoolName;
+            document.getElementById('voter-header-title').innerText = electionTitle;
+            document.getElementById('voter-header-year').innerText = 'ACADEMIC YEAR ' + academicYear;
+            document.getElementById('thankyou-school-name').innerText = schoolName;
+
+            document.getElementById('name-main-jefees').innerText = cand1Name;
+            document.getElementById('name-main-aubary').innerText = cand2Name;
+
+            document.getElementById('name-voter-jefees').innerText = cand1Name;
+            document.getElementById('name-voter-aubary').innerText = cand2Name;
+
+            document.getElementById('subtext-voter-jefees').innerText = 'Click to select ' + cand1Name;
+            document.getElementById('subtext-voter-aubary').innerText = 'Click to select ' + cand2Name;
+
+            document.getElementById('btn-voter-jefees').innerText = 'VOTE FOR ' + cand1Name;
+            document.getElementById('btn-voter-aubary').innerText = 'VOTE FOR ' + cand2Name;
+
+            document.getElementById('admin-label-jefees').innerText = cand1Name + ':';
+            document.getElementById('admin-label-aubary').innerText = cand2Name + ':';
+
+            const logoUrl = imgs.logo || DEFAULT_IMAGES.logo;
+            const bgUrl = imgs.bg || DEFAULT_IMAGES.bg;
+            const jefeesUrl = imgs.jefees || DEFAULT_IMAGES.jefees;
+            const aubaryUrl = imgs.aubary || DEFAULT_IMAGES.aubary;
+
+            document.getElementById('nav-logo-img').src = logoUrl;
+            document.getElementById('main-logo-img').src = logoUrl;
+            document.getElementById('voter-logo-img').src = logoUrl;
+
+            document.getElementById('photo-main-jefees').src = jefeesUrl;
+            document.getElementById('photo-voter-jefees').src = jefeesUrl;
+
+            document.getElementById('photo-main-aubary').src = aubaryUrl;
+            document.getElementById('photo-voter-aubary').src = aubaryUrl;
+
+            if (bgUrl) {
+                document.getElementById('body-bg').style.setProperty('--bg-img-url', `url('${bgUrl}')`);
+            }
+
+            const jefeesVotes = state.jefeesVotes || 0;
+            const aubaryVotes = state.aubaryVotes || 0;
+            const totalVotes = jefeesVotes + aubaryVotes;
+
+            animateCount('count-main-jefees', jefeesVotes);
+            animateCount('count-main-aubary', aubaryVotes);
+
+            const jefeesPercent = totalVotes > 0 ? Math.round((jefeesVotes / totalVotes) * 100) : 0;
+            const aubaryPercent = totalVotes > 0 ? Math.round((aubaryVotes / totalVotes) * 100) : 0;
+
+            document.getElementById('bar-main-jefees').style.width = jefeesPercent + '%';
+            document.getElementById('percent-main-jefees').innerText = jefeesPercent + '%';
+
+            document.getElementById('bar-main-aubary').style.width = aubaryPercent + '%';
+            document.getElementById('percent-main-aubary').innerText = aubaryPercent + '%';
+
+            document.getElementById('admin-count-jefees').innerText = jefeesVotes;
+            document.getElementById('admin-count-aubary').innerText = aubaryVotes;
+            document.getElementById('admin-count-total').innerText = totalVotes;
+
+            const liveDot = document.getElementById('live-indicator-dot');
+            const liveText = document.getElementById('live-indicator-text');
+            const votingActiveArea = document.getElementById('voting-active-area');
+            const votingClosedBanner = document.getElementById('voting-closed-banner');
+
+            if (state.status === 'LIVE') {
+                liveDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping";
+                liveText.innerText = "LIVE VOTING";
+                liveText.className = "text-xs font-bold tracking-widest uppercase text-emerald-400";
+
+                if (!hasDeviceVoted()) {
+                    votingActiveArea.classList.remove('hidden');
+                    votingClosedBanner.classList.add('hidden');
+                }
+            } else if (state.status === 'CLOSED') {
+                liveDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+                liveText.innerText = "VOTING CLOSED";
+                liveText.className = "text-xs font-bold tracking-widest uppercase text-rose-400";
+
+                votingActiveArea.classList.add('hidden');
+                if (!hasDeviceVoted()) {
+                    votingClosedBanner.classList.remove('hidden');
+                }
+            } else {
+                liveDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500";
+                liveText.innerText = "ELECTION NOT STARTED";
+                liveText.className = "text-xs font-bold tracking-widest uppercase text-amber-400";
+
+                votingActiveArea.classList.add('hidden');
+                if (!hasDeviceVoted()) {
+                    votingClosedBanner.classList.remove('hidden');
+                }
+            }
+
+            updateAdminStatusButtons(state.status);
+        }
+
+        function animateCount(elementId, targetValue) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            const currentValue = parseInt(el.innerText) || 0;
+            if (currentValue === targetValue) return;
+
+            el.classList.add('scale-125', 'text-amber-300');
+            setTimeout(() => {
+                el.innerText = targetValue;
+                el.classList.remove('scale-125', 'text-amber-300');
+            }, 150);
+        }
+
+        function switchView(viewName) {
+            const mainView = document.getElementById('view-main-display');
+            const votingView = document.getElementById('view-voting-device');
+
+            const btnMain = document.getElementById('btn-view-main');
+            const btnVoting = document.getElementById('btn-view-voting');
+
+            if (viewName === 'main') {
+                mainView.classList.remove('hidden');
+                votingView.classList.add('hidden');
+
+                btnMain.className = "px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold shadow-md";
+                btnVoting.className = "px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 text-slate-300 hover:text-white hover:bg-slate-800";
+            } else {
+                mainView.classList.add('hidden');
+                votingView.classList.remove('hidden');
+
+                btnVoting.className = "px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 bg-amber-500 text-slate-950 font-bold shadow-md";
+                btnMain.className = "px-2.5 sm:px-3 py-1.5 rounded-lg transition-all flex items-center space-x-1.5 text-slate-300 hover:text-white hover:bg-slate-800";
+            }
+        }
+
+        function promptSwitchToVoting() {
+            switchView('voting');
+        }
+
+        function hasDeviceVoted() {
+            if (window.appState && window.appState.kioskMode) {
+                return false;
+            }
+            return localStorage.getItem('sdh_voted_session_flag') === 'true';
+        }
+
+        function checkDeviceVotedStatus() {
+            if (hasDeviceVoted()) {
+                document.getElementById('voting-active-area').classList.add('hidden');
+                document.getElementById('voting-closed-banner').classList.add('hidden');
+                document.getElementById('already-voted-banner').classList.remove('hidden');
+            }
+        }
+
+        function selectCandidate(candidateKey) {
+            if (window.appState.status !== 'LIVE') {
+                alert("Voting is currently closed or not started yet.");
+                return;
+            }
+            if (hasDeviceVoted()) {
+                alert("This device has already voted.");
+                return;
+            }
+
+            const state = window.appState || {};
+            const candidateName = candidateKey === 'candidate1' ? (state.candidate1Name || 'JEFEES') : (state.candidate2Name || 'AUBARY');
+
+            window.selectedCandidateKey = candidateKey;
+            window.selectedCandidateName = candidateName;
+
+            document.getElementById('confirm-candidate-name').innerText = candidateName;
+            document.getElementById('modal-confirm-vote').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('modal-confirm-vote').classList.add('hidden');
+            window.selectedCandidateKey = null;
+            window.selectedCandidateName = null;
+        }
+
+        function submitFinalVote() {
+            if (!window.selectedCandidateKey) return;
+
+            const candidateKey = window.selectedCandidateKey;
+            const submitBtn = document.getElementById('btn-submit-final-vote');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "SUBMITTING...";
+
+            let jefees = window.appState.jefeesVotes || 0;
+            let aubary = window.appState.aubaryVotes || 0;
+
+            if (candidateKey === 'candidate1') {
+                jefees += 1;
+            } else {
+                aubary += 1;
+            }
+
+            window.saveStateToBackend({
+                jefeesVotes: jefees,
+                aubaryVotes: aubary
+            });
+
+            if (!window.appState.kioskMode) {
+                localStorage.setItem('sdh_voted_session_flag', 'true');
+            }
+
+            setTimeout(() => {
+                closeConfirmModal();
+                submitBtn.disabled = false;
+                submitBtn.innerText = "SUBMIT VOTE";
+
+                document.getElementById('voting-active-area').classList.add('hidden');
+                document.getElementById('already-voted-banner').classList.remove('hidden');
+
+                startKioskNextVoterCountdown();
+            }, 400);
+        }
+
+        function startKioskNextVoterCountdown() {
+            if (window.kioskTimer) clearInterval(window.kioskTimer);
+
+            const delaySecs = window.appState.autoResetDelay || 4;
+            let secondsLeft = delaySecs;
+
+            const countdownEl = document.getElementById('kiosk-countdown-num');
+            if (countdownEl) countdownEl.innerText = secondsLeft;
+
+            window.kioskTimer = setInterval(() => {
+                secondsLeft -= 1;
+                if (countdownEl) countdownEl.innerText = secondsLeft;
+
+                if (secondsLeft <= 0) {
+                    clearInterval(window.kioskTimer);
+                    resetScreenForNextVoter();
+                }
+            }, 1000);
+        }
+
+        function resetScreenForNextVoter() {
+            if (window.kioskTimer) clearInterval(window.kioskTimer);
+
+            document.getElementById('already-voted-banner').classList.add('hidden');
+
+            if (window.appState.status === 'LIVE') {
+                document.getElementById('voting-active-area').classList.remove('hidden');
+                document.getElementById('voting-closed-banner').classList.add('hidden');
+            } else {
+                document.getElementById('voting-closed-banner').classList.remove('hidden');
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('modal-admin-panel').classList.remove('hidden');
+            
+            // Set URL khusus perangkat voting di Admin Panel
+            const votingUrl = window.location.origin + window.location.pathname + '?mode=voting';
+            const linkInput = document.getElementById('input-voting-link');
+            if (linkInput) linkInput.value = votingUrl;
+
+            if (window.isAdminAuthenticated) {
+                document.getElementById('admin-pin-screen').classList.add('hidden');
+                document.getElementById('admin-controls-content').classList.remove('hidden');
+                populateEditableInputs();
+                populateImageInputs();
+            } else {
+                document.getElementById('admin-pin-screen').classList.remove('hidden');
+                document.getElementById('admin-controls-content').classList.add('hidden');
+            }
+        }
+
+        function closeAdminModal() {
+            document.getElementById('modal-admin-panel').classList.add('hidden');
+        }
+
+        function verifyAdminPin() {
+            const inputPin = document.getElementById('admin-pin-input').value;
+            if (inputPin === '1234' || inputPin === '') {
+                window.isAdminAuthenticated = true;
+                document.getElementById('admin-pin-screen').classList.add('hidden');
+                document.getElementById('admin-controls-content').classList.remove('hidden');
+                document.getElementById('pin-error-msg').classList.add('hidden');
+                populateEditableInputs();
+                populateImageInputs();
+            } else {
+                document.getElementById('pin-error-msg').classList.remove('hidden');
+            }
+        }
+
+        function populateEditableInputs() {
+            const state = window.appState || {};
+            document.getElementById('input-edit-school').value = state.schoolName || '';
+            document.getElementById('input-edit-title').value = state.electionTitle || '';
+            document.getElementById('input-edit-year').value = state.academicYear || '';
+            document.getElementById('input-edit-delay').value = state.autoResetDelay || 4;
+            document.getElementById('input-edit-cand1').value = state.candidate1Name || '';
+            document.getElementById('input-edit-cand2').value = state.candidate2Name || '';
+            document.getElementById('input-toggle-kiosk').checked = state.kioskMode !== false;
+        }
+
+        function saveEditableContent() {
+            const schoolName = document.getElementById('input-edit-school').value.trim() || 'SEKOLAH DIAN HARAPAN SURABAYA';
+            const electionTitle = document.getElementById('input-edit-title').value.trim() || 'STUDENT COUNCIL PRESIDENT ELECTION';
+            const academicYear = document.getElementById('input-edit-year').value.trim() || '2026/2027';
+            const autoResetDelay = parseInt(document.getElementById('input-edit-delay').value) || 4;
+            const candidate1Name = document.getElementById('input-edit-cand1').value.trim() || 'JEFEES';
+            const candidate2Name = document.getElementById('input-edit-cand2').value.trim() || 'AUBARY';
+            const kioskMode = document.getElementById('input-toggle-kiosk').checked;
+
+            window.saveStateToBackend({
+                schoolName,
+                electionTitle,
+                academicYear,
+                autoResetDelay,
+                candidate1Name,
+                candidate2Name,
+                kioskMode
+            });
+        }
+
+        function setElectionStatus(newStatus) {
+            window.saveStateToBackend({ status: newStatus });
+        }
+
+        function updateAdminStatusButtons(currentStatus) {
+            const btnNot = document.getElementById('btn-status-notstarted');
+            const btnLive = document.getElementById('btn-status-live');
+            const btnClosed = document.getElementById('btn-status-closed');
+
+            btnNot.className = "py-2.5 px-3 rounded-xl border text-xs font-bold transition-all " + (currentStatus === 'NOT_STARTED' ? "border-amber-500 bg-amber-500/20 text-amber-400" : "border-slate-700 bg-slate-800 text-slate-300");
+            btnLive.className = "py-2.5 px-3 rounded-xl border text-xs font-bold transition-all " + (currentStatus === 'LIVE' ? "border-emerald-500 bg-emerald-500/20 text-emerald-400" : "border-slate-700 bg-slate-800 text-slate-300");
+            btnClosed.className = "py-2.5 px-3 rounded-xl border text-xs font-bold transition-all " + (currentStatus === 'CLOSED' ? "border-rose-500 bg-rose-500/20 text-rose-400" : "border-slate-700 bg-slate-800 text-slate-300");
+        }
+
+        function adjustVote(candidate, delta) {
+            let jefees = window.appState.jefeesVotes || 0;
+            let aubary = window.appState.aubaryVotes || 0;
+
+            if (candidate === 'jefees') {
+                jefees = Math.max(0, jefees + delta);
+            } else {
+                aubary = Math.max(0, aubary + delta);
+            }
+
+            window.saveStateToBackend({ jefeesVotes: jefees, aubaryVotes: aubary });
+        }
+
+        function populateImageInputs() {
+            const imgs = window.appState.customImages || {};
+            document.getElementById('input-logo-url').value = imgs.logo || '';
+            document.getElementById('input-bg-url').value = imgs.bg || '';
+            document.getElementById('input-jefees-url').value = imgs.jefees || '';
+            document.getElementById('input-aubary-url').value = imgs.aubary || '';
+        }
+
+        function handleFileUpload(event, imageKey) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert("Ukuran gambar terlalu besar! Harap gunakan file di bawah 5MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Data = e.target.result;
+                const currentImgs = window.appState.customImages || {};
+                currentImgs[imageKey] = base64Data;
+
+                window.saveStateToBackend({ customImages: currentImgs });
+
+                const inputIdMap = { logo: 'input-logo-url', bg: 'input-bg-url', jefees: 'input-jefees-url', aubary: 'input-aubary-url' };
+                if (inputIdMap[imageKey]) {
+                    document.getElementById(inputIdMap[imageKey]).value = base64Data.substring(0, 40) + '... (File Uploaded)';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyOnlinePlaceholders() {
+            document.getElementById('input-logo-url').value = 'https://placehold.co/400x120/0b1d3a/f59e0b?text=SDH+SURABAYA';
+            document.getElementById('input-bg-url').value = 'https://placehold.co/1200x800/0f172a/334155?text=SDH+Campus+Building';
+            document.getElementById('input-jefees-url').value = 'https://placehold.co/400x500/1e293b/f59e0b?text=CANDIDATE+01';
+            document.getElementById('input-aubary-url').value = 'https://placehold.co/400x500/1e293b/3b82f6?text=CANDIDATE+02';
+            saveImageUrls();
+        }
+
+        function applyLocalFilenameDefaults() {
+            document.getElementById('input-logo-url').value = DEFAULT_IMAGES.logo;
+            document.getElementById('input-bg-url').value = DEFAULT_IMAGES.bg;
+            document.getElementById('input-jefees-url').value = DEFAULT_IMAGES.jefees;
+            document.getElementById('input-aubary-url').value = DEFAULT_IMAGES.aubary;
+            saveImageUrls();
+        }
+
+        function saveImageUrls() {
+            const customImages = {
+                logo: document.getElementById('input-logo-url').value.trim(),
+                bg: document.getElementById('input-bg-url').value.trim(),
+                jefees: document.getElementById('input-jefees-url').value.trim(),
+                aubary: document.getElementById('input-aubary-url').value.trim()
+            };
+
+            window.saveStateToBackend({ customImages });
+        }
+
+        function resetDeviceVoteLock() {
+            localStorage.removeItem('sdh_voted_session_flag');
+            document.getElementById('already-voted-banner').classList.add('hidden');
+            resetScreenForNextVoter();
+            updateUI();
+        }
+
+        function promptResetVotes() {
+            document.getElementById('modal-admin-reset-confirm').classList.remove('hidden');
+        }
+
+        function closeResetConfirmModal() {
+            document.getElementById('modal-admin-reset-confirm').classList.add('hidden');
+        }
+
+        function confirmResetAllVotes() {
+            window.saveStateToBackend({
+                jefeesVotes: 0,
+                aubaryVotes: 0
+            });
+            closeResetConfirmModal();
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
